@@ -1,44 +1,52 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300');
-@import url('https://fonts.googleapis.com/css?family=Titillium+Web:700');
-
-body {
-        background-color: #212121;
-        color: white;
-        font-size: 38px;
-      }
-
-.container {
-  display: block;
-  width: 100%;
-  p {
-    text-align: center;
-    font-family: 'Open Sans Condensed', sans-serif;
-  }
+* {
+  box-sizing: border-box;
 }
-.main{
-background-color: #C3002F;
 
-  .littleGuy{
-    background-color: #DD0031;
-    width: 300px;
-    height: 350px;
-    position: relative;
-    margin-left: 30px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    display: block;
-    text-overflow: ellipsis;
-    h1 {
-      font-size: 20px;
-      font-family: 'Open Sans Condensed', sans-serif;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans';
+}
 
-    }
+a:link,
+a:visited,
+a:hover {
+  color: rgba(0, 0, 0, 0.9);
+}
 
-    p {
-      font-size: 17px;
-      font-family: 'Open Sans Condensed', sans-serif;
-    }
-  }
+.main-container {
+  overflow: hidden;
+}
+
+.character-container {
+  -webkit-transform: translateZ(0);
+}
+
+.character {
+  width: 20%;
+  height: auto;
+  padding-bottom: 20%;
+  float: left;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  opacity: 0.5;
+  -webkit-transition: opacity 0.5s ease;
+  -moz-transition: opacity 0.5s ease;
+  -o-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+}
+.character h3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  background-color: #ffffff;
+  padding: 1%;
+  margin: 0px;
+}
+.character:hover {
+  cursor: pointer;
+  opacity: 1;
 }

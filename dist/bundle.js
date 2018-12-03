@@ -50,7 +50,7 @@
 
 	__webpack_require__(13);
 
-	var _angular = __webpack_require__(1);
+	var _angular = __webpack_require__(3);
 
 	var _angular2 = _interopRequireDefault(_angular);
 
@@ -64,18 +64,13 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// $scope.publicKey = "5234a931fdd1da574fb6133e31a6d02c";
+	// $scope.baseUrl = "http://gateway.marvel.com/v1/public";
+
 	_angular2.default.module('app', [_components2.default.name]).component('app', _app2.default);
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(5);
-	module.exports = angular;
-
-
-/***/ },
-/* 2 */
 /***/ function(module, exports) {
 
 	/*
@@ -131,7 +126,7 @@
 
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -380,6 +375,14 @@
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
 	}
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(5);
+	module.exports = angular;
 
 
 /***/ },
@@ -33769,7 +33772,7 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(2)();
+	exports = module.exports = __webpack_require__(1)();
 	// imports
 
 
@@ -33783,7 +33786,7 @@
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(2)();
+	exports = module.exports = __webpack_require__(1)();
 	// imports
 
 
@@ -33797,13 +33800,12 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(2)();
+	exports = module.exports = __webpack_require__(1)();
 	// imports
-	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);", ""]);
-	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Titillium+Web:700);", ""]);
+
 
 	// module
-	exports.push([module.id, "body {\n  background-color: #212121;\n  color: white;\n  font-size: 38px; }\n\n.container {\n  display: block;\n  width: 100%; }\n  .container p {\n    text-align: center;\n    font-family: 'Open Sans Condensed', sans-serif; }\n\n.main {\n  background-color: #C3002F; }\n  .main .littleGuy {\n    background-color: #DD0031;\n    width: 300px;\n    height: 350px;\n    position: relative;\n    margin-left: 30px;\n    margin-top: 30px;\n    margin-bottom: 30px;\n    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);\n    overflow: hidden;\n    display: block;\n    text-overflow: ellipsis; }\n    .main .littleGuy h1 {\n      font-size: 20px;\n      font-family: 'Open Sans Condensed', sans-serif; }\n    .main .littleGuy p {\n      font-size: 17px;\n      font-family: 'Open Sans Condensed', sans-serif; }\n", ""]);
+	exports.push([module.id, "", ""]);
 
 	// exports
 
@@ -33824,42 +33826,11 @@
 
 	__webpack_require__(14);
 
-	var _angular = __webpack_require__(1);
-
-	var _angular2 = _interopRequireDefault(_angular);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var AppComponent = {
 	    template: _appComponent2.default
 	};
-
-	var app = _angular2.default.module('myApp', ['ngRoute']);
-
-	app.config(["$routeProvider", function ($routeProvider) {
-	    $routeProvider.when('/', {
-	        templateUrl: 'pages/home.html',
-	        controller: 'HomeController'
-	    }).when('/blog', {
-	        templateUrl: 'pages/blog.html',
-	        controller: 'BlogController'
-	    }).when('/about', {
-	        templateUrl: 'pages/about.html',
-	        controller: 'AboutController'
-	    }).otherwise({ redirectTo: '/' });
-	}]);
-
-	app.controller('HomeController', ["$scope", function ($scope) {
-	    $scope.message = 'Hello from HomeController';
-	}]);
-
-	app.controller('BlogController', ["$scope", function ($scope) {
-	    $scope.message = 'Hello from BlogController';
-	}]);
-
-	app.controller('AboutController', ["$scope", function ($scope) {
-	    $scope.message = 'Hello from AboutController';
-	}]);
 
 	exports.default = AppComponent;
 
@@ -33870,16 +33841,57 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	        value: true
+	    value: true
 	});
 
-	var _angular = __webpack_require__(1);
+	var _angular = __webpack_require__(3);
 
 	var _angular2 = _interopRequireDefault(_angular);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var ComponentsModule = _angular2.default.module('app.components', []);
+	var ComponentsModule = _angular2.default.module('app', ['infinite-scroll']);
+
+	ComponentsModule.controller('TestController', ["$scope", "$http", "$q", function ($scope, $http, $q) {
+	    var limit = 50;
+	    var find = function find() {
+	        var def = $q.defer();
+	        var url = $scope.baseUrl + '/characters?limit=' + limit + '&apikey=' + $scope.publicKey;
+	        $http.get(url).success(def.resolve).error(def.reject);
+
+	        return def.promise;
+	    };
+	    var findNext = function findNext(offset) {
+	        var def = $q.defer();
+	        var url = $scope.baseUrl + 'public/characters?limit=' + limit + '&offset=' + limit * offset + '&apikey=' + $scope.publicKey;
+	        $http.get(url).success(def.resolve).error(def.reject);
+
+	        return def.promise;
+	    };
+	    var LoadMore = function LoadMore($scope) {
+	        this.offset = 0;
+	        this.busy = false;
+	        this.characters = [];
+	        this.load = function () {
+	            if (this.busy) {
+	                return;
+	            }
+	            this.busy = true;
+	            findNext(this.offset).then(function (results) {
+	                var chars = results.data.results;
+	                chars.forEach(function (item) {
+	                    this.characters.push(item);
+	                }.bind(this));
+	                this.offset++;
+	                this.busy = false;
+	            }.bind(this));
+	        }.bind(this);
+	    };
+
+	    return {
+	        LoadMore: LoadMore
+	    };
+	}]);
 
 	exports.default = ComponentsModule;
 
@@ -33887,7 +33899,7 @@
 /* 11 */
 /***/ function(module, exports) {
 
-	module.exports = "<!doctype html>\n<html ng-app=\"myApp\">\n<head>\n  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js\"></script>\n  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js\"></script>\n</head>\n<body>\n<script type=\"text/ng-template\" id=\"pages/home.html\">\n  <h1>Home</h1>\n  <h3>{{message}}</h3>\n</script>\n<script type=\"text/ng-template\" id=\"pages/blog.html\">\n  <h1>Blog</h1>\n  <h3>{{message}}</h3>\n</script>\n<script type=\"text/ng-template\" id=\"pages/about.html\">\n  <h1>About</h1>\n  <h3>{{message}}</h3>\n</script>\n\n<a href=\"#/\">Home</a>\n<a href=\"#/blog\">Blog</a>\n<a href=\"#/about\">About</a>\n\n<div ng-view></div>\n\n<script src=\"app.js\"></script>\n</body>\n</html>\n"
+	module.exports = "<html>\n<head>\n  <meta charset=\"UTF-8\">\n  <script src=\"js/jquery.min.js\"></script>\n  <script src=\"js/angular.min.js\"></script>\n  <script src=\"js/angular-ui-router.min.js\"></script>\n  <script src=\"js/ng-infinite-scroll.min.js\"></script>\n  <script src=\"js/comics.js\"></script>\n  <link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\">\n</head>\n<body ng-controller=\"TestController\">\n<div ui-view infinite-scroll=\"loadResults()\" infinite-scroll-distance=\"0\" infinite-scroll-disabled='more.busy' class=\"main-container\"></div>\n</body>\n</html>"
 
 /***/ },
 /* 12 */
@@ -33899,7 +33911,7 @@
 	var content = __webpack_require__(6);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(3)(content, {});
+	var update = __webpack_require__(2)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -33925,7 +33937,7 @@
 	var content = __webpack_require__(7);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(3)(content, {});
+	var update = __webpack_require__(2)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -33951,7 +33963,7 @@
 	var content = __webpack_require__(8);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(3)(content, {});
+	var update = __webpack_require__(2)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
